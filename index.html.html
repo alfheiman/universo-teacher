@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Universo Teacher — Quiz</title>
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','SEU_PIXEL_AQUI');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=SEU_PIXEL_AQUI&ev=PageView&noscript=1"/></noscript>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green:      #16a34a;
+  --green-dark: #15803d;
+  --green-lt:   #f0fdf4;
+  --green-mid:  #dcfce7;
+  --green-bd:   #86efac;
+  --blue:       #1e40af;
+  --blue-lt:    #eff6ff;
+  --blue-bd:    #bfdbfe;
+  --red:        #dc2626;
+  --gold:       #d97706;
+  --gold-lt:    #fffbeb;
+  --gold-bd:    #fde68a;
+  --dark:       #0f172a;
+  --dark2:      #1e293b;
+  --slate:      #475569;
+  --muted:      #94a3b8;
+  --border:     #e2e8f0;
+  --bg:         #fafaf9;
+  --white:      #ffffff;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-rail {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+.topbar {
+  width: 100%;
+  background: var(--dark);
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  letter-spacing: 0.02em;
+}
+#topbar-timer {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: #fcd34d;
+  margin-left: 6px;
+}
+
+.step-dot-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+.step-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s;
+}
+.step-dot.active { background: var(--green); width: 18px; border-radius: 3px; }
+.step-dot.done   { background: var(--green); }
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  padding: 0 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0 56px;
+  min-height: 85vh;
+  animation: rise 0.35s cubic-bezier(.4,0,.2,1);
+}
+.screen.active { display: flex; }
+#sVideo { min-height: unset; justify-content: flex-start; padding-top: 40px; }
+#sOffer { min-height: unset; padding: 32px 0 64px; align-items: stretch; justify-content: flex-start; }
+
+@keyframes rise {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.q-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 16px;
+  align-self: flex-start;
+}
+.big-q {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 5.5vw, 2.4rem);
+  font-weight: 400;
+  color: var(--dark);
+  line-height: 1.22;
+  margin-bottom: 10px;
+  text-align: left;
+  align-self: flex-start;
+  width: 100%;
+}
+.big-q em { font-style: italic; color: var(--green); }
+.big-sub {
+  font-size: 0.93rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 36px;
+  line-height: 1.6;
+  align-self: flex-start;
+}
+
+.yn-wrap { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+
+.btn-yn {
+  width: 100%;
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-family: var(--sans);
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  line-height: 1.4;
+  position: relative;
+  overflow: hidden;
+}
+.btn-yn::after {
+  content: '→';
+  position: absolute;
+  right: 20px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.18s;
+  font-size: 1rem;
+  color: var(--green);
+}
+.btn-yn:hover {
+  border-color: var(--green-bd);
+  background: var(--green-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(22,163,74,0.1);
+}
+.btn-yn:hover::after { opacity: 1; transform: translateX(0); }
+.btn-yn:active { transform: translateY(0) scale(0.99); }
+
+.opt-letter {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--slate);
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+.btn-yn:hover .opt-letter {
+  background: var(--green-mid);
+  border-color: var(--green-bd);
+  color: var(--green-dark);
+}
+
+.insight-box {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--green);
+  border-radius: 14px;
+  padding: 28px 24px;
+  margin-bottom: 28px;
+  text-align: left;
+  width: 100%;
+}
+.insight-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.insight-tag::before {
+  content: '';
+  display: block;
+  width: 16px; height: 1.5px;
+  background: var(--green);
+}
+.insight-stat {
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  color: var(--green-dark);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.insight-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--dark2);
+  line-height: 1.65;
+}
+.insight-text strong { color: var(--dark); font-weight: 800; }
+
+.btn-primary {
+  width: 100%;
+  padding: 18px 24px;
+  border-radius: 14px;
+  border: none;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.01em;
+}
+.btn-primary:hover {
+  background: var(--green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22,163,74,0.28);
+}
+.btn-primary:active { transform: translateY(0) scale(0.99); }
+
+.loader-wrap { width:100%; display:flex; flex-direction:column; gap:10px; }
+.loader-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+}
+.loader-step.done {
+  border-color: var(--green-bd);
+  background: var(--green-lt);
+  color: var(--green-dark);
+}
+.ls-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: all 0.35s;
+}
+.loader-step.done .ls-num {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  font-size: 0.85rem;
+}
+.loader-spinner {
+  width: 18px; height: 18px;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.profile-strip {
+  background: var(--dark);
+  border-radius: 14px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.profile-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.profile-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 2px;
+}
+.profile-text { font-size: 0.9rem; font-weight: 700; color: #fff; }
+
+.section-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--green);
+  text-align: center;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.section-tag::before, .section-tag::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.resolves-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:24px; width:100%; }
+.resolve-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--dark2);
+  line-height: 1.45;
+}
+.ri-icon { font-size: 1.1rem; flex-shrink:0; margin-top:1px; }
+
+.product-hero { text-align: center; margin-bottom: 20px; }
+.product-name {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.product-sub { font-size: 0.88rem; font-weight: 600; color: var(--slate); }
+
+.feat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+.feat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--dark2);
+}
+
+.content-box {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.content-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+.content-item span { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
+
+.bonus-wrap { display:flex; flex-direction:column; gap:10px; margin-bottom:22px; width:100%; }
+.bonus-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.bonus-icon-wrap {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+.bonus-title { font-size: 0.88rem; font-weight: 800; color: var(--dark); margin-bottom: 2px; }
+.bonus-desc  { font-size: 0.78rem; font-weight: 500; color: var(--slate); line-height: 1.4; }
+
+.timer-strip {
+  background: var(--gold-lt);
+  border: 1.5px solid var(--gold-bd);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #92400e;
+}
+#offer-countdown {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  color: var(--red);
+  letter-spacing: 0.05em;
+}
+
+.price-box {
+  background: var(--dark);
+  border-radius: 18px;
+  padding: 40px 24px 28px;
+  margin-bottom: 16px;
+  margin-top: 14px;
+  position: relative;
+  width: 100%;
+}
+.price-box::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(22,163,74,0.08);
+  pointer-events: none;
+}
+.price-badge {
+  position: absolute;
+  top: -14px; left: 50%;
+  transform: translateX(-50%);
+  background: #fcd34d;
+  color: #78350f;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 22px;
+  border-radius: 20px;
+  white-space: nowrap;
+  z-index: 2;
+}
+.price-anchor {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.price-anchor span { text-decoration: line-through; }
+.price-main {
+  font-family: var(--serif);
+  font-size: 3.8rem;
+  color: #fcd34d;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.price-note {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  margin-bottom: 20px;
+}
+.price-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 20px; }
+.price-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.price-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.45;
+}
+.price-list li strong { color: #fff; font-weight: 800; }
+.ck { flex-shrink:0; margin-top:1px; }
+
+.btn-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px 24px;
+  border-radius: 14px;
+  border: none;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  animation: pulseCTA 2.5s ease-in-out infinite;
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+  transition: transform 0.2s, background 0.2s;
+}
+@keyframes pulseCTA {
+  0%,100% { box-shadow: 0 6px 20px rgba(22,163,74,0.35); }
+  50%      { box-shadow: 0 6px 32px rgba(22,163,74,0.55); }
+}
+.btn-cta:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+.social-proof {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--slate);
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--white);
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+}
+
+.micro-copy { font-size: 0.75rem; color: var(--muted); font-weight: 600; text-align: center; margin-bottom: 12px; }
+
+.guarantee-box {
+  background: var(--green-lt);
+  border: 1.5px solid var(--green-bd);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  width: 100%;
+}
+.guarantee-text-title { font-size: 0.92rem; font-weight: 800; color: #166534; margin-bottom: 4px; }
+.guarantee-text-body  { font-size: 0.82rem; font-weight: 500; color: #15803d; line-height: 1.6; }
+
+.faq-item {
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: var(--white);
+}
+.faq-q {
+  padding: 14px 18px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--dark);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.15s;
+}
+.faq-q:hover { background: var(--bg); }
+.faq-icon { color: var(--muted); transition: transform 0.22s; font-size: 1.1rem; flex-shrink:0; }
+.faq-item.open .faq-icon { transform: rotate(45deg); color: var(--green); }
+.faq-a {
+  display: none;
+  padding: 0 18px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--slate);
+  line-height: 1.65;
+}
+.faq-item.open .faq-a { display: block; }
+
+.notif {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: var(--white);
+  border: 1.5px solid var(--green-bd);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  z-index: 999;
+  min-width: 280px;
+  max-width: 340px;
+  transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+  opacity: 0;
+}
+.notif.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.notif-dot {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--green-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.notif-name   { font-size: 0.85rem; font-weight: 800; color: var(--dark); line-height: 1.3; }
+.notif-detail { font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-top: 2px; }
+.notif-detail span { color: var(--green); font-weight: 700; }
+.notif-close  { font-size: 0.9rem; color: var(--muted); cursor: pointer; flex-shrink: 0; margin-left: auto; }
+
+@media(max-width:420px){
+  .notif { min-width: 260px; max-width: calc(100vw - 28px); }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-rail">
+  <div class="progress-fill" id="prog" style="width:6%"></div>
+</div>
+
+<div class="topbar" id="topbar">
+  ⏰ Esta oferta expira en: <span id="topbar-timer"></span> · El precio sube cuando el contador llegue a cero
+</div>
+
+<div class="card">
+
+  <!-- S0: PREGUNTA 1 -->
+  <div class="screen active" id="s0">
+    <div class="step-dot-wrap" id="dots-s0"></div>
+    <div class="q-label">Pregunta 1 de 4</div>
+    <h1 class="big-q">¿Cuánto tiempo pierdes preparando material para tus clases <em>cada semana?</em></h1>
+    <p class="big-sub">Sé honesta — nadie te está mirando.</p>
+    <div class="yn-wrap">
+      <button class="btn-yn" onclick="goTo('s1')">
+        <div class="opt-letter">A</div>
+        <span>⏱️ Menos de 1 hora — soy bastante organizada</span>
+      </button>
+      <button class="btn-yn" onclick="goTo('s1')">
+        <div class="opt-letter">B</div>
+        <span>😅 Entre 1 y 3 horas — más de lo que quisiera</span>
+      </button>
+      <button class="btn-yn" onclick="goTo('s1')">
+        <div class="opt-letter">C</div>
+        <span>😩 Más de 3 horas — me roba el fin de semana</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- S1: PREGUNTA 2 -->
+  <div class="screen" id="s1">
+    <div class="step-dot-wrap" id="dots-s1"></div>
+    <div class="q-label">Pregunta 2 de 4</div>
+    <h1 class="big-q">¿Tus alumnos se desconectan o pierden el interés <em>durante la clase?</em></h1>
+    <p class="big-sub">La atención es el mayor desafío hoy.</p>
+    <div class="yn-wrap">
+      <button class="btn-yn" onclick="goTo('s2')">
+        <div class="opt-letter">A</div>
+        <span>✅ Sí, y no sé bien cómo evitarlo</span>
+      </button>
+      <button class="btn-yn" onclick="goTo('s2')">
+        <div class="opt-letter">B</div>
+        <span>🚫 No, logro mantenerlos atentos</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- S2: PREGUNTA 3 -->
+  <div class="screen" id="s2">
+    <div class="step-dot-wrap" id="dots-s2"></div>
+    <div class="q-label">Pregunta 3 de 4</div>
+    <h1 class="big-q">¿Te pasa que el domingo en la noche todavía no tienes lista <em>la clase del lunes?</em></h1>
+    <p class="big-sub">Tiempo libre que se convierte en trabajo invisible.</p>
+    <div class="yn-wrap">
+      <button class="btn-yn" onclick="goTo('sSabias')">
+        <div class="opt-letter">A</div>
+        <span>😬 Sí, casi siempre</span>
+      </button>
+      <button class="btn-yn" onclick="goTo('sSabias')">
+        <div class="opt-letter">B</div>
+        <span>📅 A veces me pasa</span>
+      </button>
+      <button class="btn-yn" onclick="goTo('sSabias')">
+        <div class="opt-letter">C</div>
+        <span>💪 No, tengo todo organizado</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SABIAS QUE -->
+  <div class="screen" id="sSabias">
+    <div class="insight-box">
+      <div class="insight-tag">¿Sabías que?</div>
+      <div class="insight-stat">150 horas</div>
+      <div class="insight-text">
+        La mayoría de las teachers de inglés pierde entre <strong>3 y 5 horas semanales</strong> buscando y adaptando material.<br><br>
+        Eso son más de <strong>150 horas al año</strong> — casi un mes de trabajo — en algo que podría estar listo en segundos.
+      </div>
+    </div>
+    <button class="btn-primary" onclick="goTo('sVideo')">
+      Sí, eso me pasa — quiero resolverlo &nbsp;→
+    </button>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="screen" id="sVideo">
+    <div class="q-label" style="align-self:flex-start;">Prova social</div>
+    <h1 class="big-q">Mira lo que dicen las teachers <em>que ya lo tienen:</em></h1>
+    <p class="big-sub" style="margin-bottom:24px;">Ella tenía el mismo problema que tú.</p>
+    <div style="width:100%;max-width:320px;aspect-ratio:9/16;border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.15);background:#000;margin:0 auto 24px;flex-shrink:0;">
+      <iframe id="vimeo-dep"
+        src="https://player.vimeo.com/video/SEU_VIDEO_AQUI?autoplay=0&title=0&byline=0&portrait=0&dnt=1"
+        style="width:100%;height:100%;border:0;"
+        frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <button class="btn-primary" onclick="stopVideo(); goTo('s3')">
+      ¡Quiero ese resultado también! &nbsp;→
+    </button>
+  </div>
+
+  <!-- S3: SEGMENTAÇÃO -->
+  <div class="screen" id="s3">
+    <div class="step-dot-wrap" id="dots-s3"></div>
+    <div class="q-label">Pregunta 4 de 4</div>
+    <h1 class="big-q">¿A qué <em>edad</em> enseñas inglés con más frecuencia?</h1>
+    <p class="big-sub">Vamos a personalizar tu resultado.</p>
+    <div class="yn-wrap">
+      <button class="btn-yn" onclick="setPerfil('kids'); goTo('s4')">
+        <div class="opt-letter">A</div>
+        <span>🐣 Niños — Preescolar y Primaria</span>
+      </button>
+      <button class="btn-yn" onclick="setPerfil('teens'); goTo('s4')">
+        <div class="opt-letter">B</div>
+        <span>🎧 Teens — Secundaria</span>
+      </button>
+      <button class="btn-yn" onclick="setPerfil('adults'); goTo('s4')">
+        <div class="opt-letter">C</div>
+        <span>👩‍💼 Adultos</span>
+      </button>
+      <button class="btn-yn" onclick="setPerfil('mixed'); goTo('s4')">
+        <div class="opt-letter">D</div>
+        <span>🌀 Mix — enseño todas las edades</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- S4: URGÊNCIA -->
+  <div class="screen" id="s4">
+    <div class="q-label">Última pregunta</div>
+    <h1 class="big-q">¿Cuándo necesitas <em>resolver esto?</em></h1>
+    <p class="big-sub">Elige la que más se parece a tu situación.</p>
+    <div class="yn-wrap">
+      <button class="btn-yn" onclick="goTo('sLoad')">
+        <div class="opt-letter">A</div>
+        <span>🚨 Ya — tengo clase esta semana</span>
+      </button>
+      <button class="btn-yn" onclick="goTo('sLoad')">
+        <div class="opt-letter">B</div>
+        <span>📅 Quiero organizarme para los próximos meses</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="screen" id="sLoad" style="justify-content:center;">
+    <h1 class="big-q" style="text-align:center;margin-bottom:32px;">Analizando tu perfil… 🔍</h1>
+    <div class="loader-wrap">
+      <div class="loader-step" id="ls1">
+        <div class="ls-num">1</div>
+        <span>Identificando tu tipo de teacher</span>
+        <div class="loader-spinner"></div>
+      </div>
+      <div class="loader-step" id="ls2">
+        <div class="ls-num">2</div>
+        <span>Seleccionando actividades para tu nivel</span>
+        <div class="loader-spinner"></div>
+      </div>
+      <div class="loader-step" id="ls3">
+        <div class="ls-num">3</div>
+        <span>Preparando tu resultado personalizado</span>
+        <div class="loader-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFERTA -->
+  <div class="screen" id="sOffer">
+
+    <div class="profile-strip">
+      <div class="profile-avatar">🎓</div>
+      <div>
+        <div class="profile-label">✅ Perfil identificado</div>
+        <div class="profile-text" id="profile-text">Cargando tu perfil…</div>
+      </div>
+    </div>
+
+    <div class="section-tag">Lo que resuelve para ti</div>
+    <div class="resolves-grid" id="resolves-grid"></div>
+
+    <div class="product-hero">
+      <div class="product-name">El Universo Teacher</div>
+      <div class="product-sub">+300 actividades de inglés listas para usar 🖨️</div>
+    </div>
+
+    <div class="section-tag">Diferenciales del material</div>
+    <div class="feat-grid" style="margin-bottom:24px;">
+      <div class="feat-item">✅ Listo para imprimir</div>
+      <div class="feat-item">🎨 Diseño atractivo y profesional</div>
+      <div class="feat-item">📚 Todos los niveles — A1 a C1</div>
+      <div class="feat-item">🎉 Fechas especiales incluidas</div>
+      <div class="feat-item">🔤 Vocabulario variado y completo</div>
+      <div class="feat-item">♾️ Acceso de por vida</div>
+    </div>
+
+    <div class="content-box">
+      <div class="section-tag" style="margin-bottom:16px;">Todo lo que incluye El Universo Teacher</div>
+      <div class="content-grid">
+        <div class="content-item">🎓 8 Niveles <span>(A1–C1)</span></div>
+        <div class="content-item">📝 7 Temas gramaticales</div>
+        <div class="content-item">🎨 +20 Tipos de actividad</div>
+        <div class="content-item">🎯 150 Dinámicas sin papel</div>
+        <div class="content-item">🎧 Áudios de listening</div>
+        <div class="content-item">🎁 Bonos incluidos</div>
+      </div>
+    </div>
+
+    <div class="section-tag">🎁 Bonos que reciben hoy — gratis</div>
+    <div class="bonus-wrap">
+      <div class="bonus-item">
+        <div class="bonus-icon-wrap" style="background:#fdf4ff;">⬛</div>
+        <div>
+          <div class="bonus-title" style="color:#4c1d95;">Kit CrossWords</div>
+          <div class="bonus-desc">Crucigramas de inglés listos para imprimir — vocabulario, gramática y temáticos. Para todos los niveles.</div>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-icon-wrap" style="background:#eff6ff;">🔎</div>
+        <div>
+          <div class="bonus-title" style="color:#1e3a8a;">Kit Word Search</div>
+          <div class="bonus-desc">Sopas de letras en inglés para todas las edades — listas para usar en clase mañana mismo.</div>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-icon-wrap" style="background:#f0fdf4;">🎧</div>
+        <div>
+          <div class="bonus-title" style="color:#14532d;">Áudios de Listening</div>
+          <div class="bonus-desc">Actividades de comprensión auditiva listas para reproducir directamente en clase. Sin preparación extra.</div>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-icon-wrap" style="background:#fffbeb;">🎯</div>
+        <div>
+          <div class="bonus-title" style="color:#78350f;">150 Dinámicas sin Papel</div>
+          <div class="bonus-desc">Actividades orales e interactivas para todos los niveles — cero impresión, máximo engagement.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timer-strip">
+      ⏰ Esta oferta expira en: <span id="offer-countdown">14:59</span>
+      <span style="font-size:0.78rem;font-weight:600;color:#b45309;margin-left:4px;">· El precio sube cuando llegue a cero</span>
+    </div>
+
+    <div class="price-box">
+      <span class="price-badge">KIT COMPLETO</span>
+      <p class="price-anchor">Precio normal: <span>$47.00</span></p>
+      <div class="price-main">$9.90</div>
+      <p class="price-note">💳 Paga en tu moneda local · Un solo pago · Acceso de por vida</p>
+      <div class="price-divider"></div>
+      <ul class="price-list">
+        <li><span class="ck">✅</span><span><strong>+300 Actividades en PDF</strong> — listas para imprimir.</span></li>
+        <li><span class="ck">✅</span><span>Acceso inmediato y de por vida.</span></li>
+        <li><span class="ck">🎁</span><span><strong>Bono 1:</strong> Kit CrossWords (Crucigramas).</span></li>
+        <li><span class="ck">🎁</span><span><strong>Bono 2:</strong> Kit Word Search (Sopas de Letras).</span></li>
+        <li><span class="ck">🎁</span><span><strong>Bono 3:</strong> Áudios de Listening.</span></li>
+        <li><span class="ck">🎁</span><span><strong>Bono 4:</strong> 150 Dinámicas sin Papel.</span></li>
+      </ul>
+    </div>
+
+    <div class="social-proof">👩‍🏫 Más de 1.200 teachers ya tienen este material</div>
+
+    <div style="text-align:center;margin-bottom:12px;">
+      <span style="font-size:0.8rem;font-weight:600;color:var(--muted);text-decoration:line-through;">Precio normal: $47.00</span>
+      <span style="font-size:0.85rem;font-weight:800;color:var(--green);margin-left:10px;">Hoy solo $9.90 →</span>
+    </div>
+
+    <a href="SEU_LINK_HOTMART_AQUI" class="btn-cta" onclick="trackCheckout()">
+      ¡SÍ! QUIERO EL UNIVERSO TEACHER 🌟
+    </a>
+    <p class="micro-copy">Solo toma 10 segundos · Acceso inmediato</p>
+
+    <div class="guarantee-box">
+      <span style="font-size:2rem;flex-shrink:0;line-height:1;">🔒</span>
+      <div>
+        <div class="guarantee-text-title">7 días de garantía incondicional — sin preguntas</div>
+        <div class="guarantee-text-body">Si por cualquier motivo el material no es lo que esperabas, te devolvemos el 100% dentro de los primeros 7 días. Sin formularios, sin esperas, sin preguntas.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;width:100%;">
+      <div class="section-tag" style="margin-bottom:6px;">Preguntas frecuentes</div>
+      <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--dark);text-align:center;margin-bottom:20px;line-height:1.3;">¿Tienes dudas? Las resolvemos aquí.</h2>
+      <div id="faq-list"></div>
+    </div>
+
+    <a href="SEU_LINK_HOTMART_AQUI" class="btn-cta" onclick="trackCheckout()" style="margin-top:28px;">
+      ¡SÍ! QUIERO EL UNIVERSO TEACHER 🌟
+    </a>
+    <p class="micro-copy">Solo toma 10 segundos · Acceso inmediato</p>
+
+  </div>
+</div>
+
+<!-- NOTIF -->
+<div class="notif" id="notif">
+  <div class="notif-dot" id="notif-flag">🛒</div>
+  <div style="flex:1;">
+    <div class="notif-name" id="notif-name"></div>
+    <div class="notif-detail"><span>El Universo Teacher</span> · <span id="notif-time"></span></div>
+  </div>
+  <div class="notif-close" onclick="closeNotif()">✕</div>
+</div>
+
+<script>
+let perfil = 'kids';
+function setPerfil(p){ perfil = p; }
+
+const TOTAL_DOTS = 5;
+const screenDotIndex = { s0:0, s1:1, s2:2, s3:3, s4:4 };
+
+function renderDots(screenId){
+  const wrap = document.getElementById('dots-' + screenId);
+  if(!wrap) return;
+  const active = screenDotIndex[screenId] ?? 0;
+  wrap.innerHTML = '';
+  for(let i=0;i<TOTAL_DOTS;i++){
+    const d = document.createElement('div');
+    d.className = 'step-dot' + (i < active ? ' done' : i === active ? ' active' : '');
+    wrap.appendChild(d);
+  }
+}
+
+const progMap = { s0:6, s1:22, s2:38, sSabias:50, sVideo:60, s3:72, s4:84, sLoad:94, sOffer:100 };
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el){ el.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+  document.getElementById('prog').style.width = (progMap[id] || 6) + '%';
+  renderDots(id);
+  if(id === 'sVideo') initVimeoPlayer();
+  if(id === 'sLoad')  runLoader();
+  if(id === 'sOffer') showOffer();
+  if(id === 's3') fbqTrack('Quiz_Q3_Respondida');
+}
+
+function runLoader(){
+  const steps = [{id:'ls1',delay:900},{id:'ls2',delay:1900},{id:'ls3',delay:2900}];
+  steps.forEach(s => {
+    setTimeout(()=>{
+      const el = document.getElementById(s.id);
+      if(!el) return;
+      el.classList.add('done');
+      const spin = el.querySelector('.loader-spinner');
+      if(spin) spin.style.display = 'none';
+      el.querySelector('.ls-num').textContent = '✓';
+    }, s.delay);
+  });
+  setTimeout(()=>{
+    document.getElementById('topbar').style.display = 'block';
+    goTo('sOffer');
+    if(typeof fbq==='function') fbq('track','CompleteRegistration');
+  }, 3800);
+}
+
+const profileTexts = {
+  kids:   'Teacher de Inglés · Preescolar / Primaria',
+  teens:  'Teacher de Inglés · Secundaria / Teens',
+  adults: 'Teacher de Inglés · Adultos',
+  mixed:  'Teacher de Inglés · Todos los niveles',
+};
+
+const resolvesByPerfil = {
+  kids: [
+    { icon:'🎨', text:'Actividades visuales y lúdicas para mantener la atención de los más pequeños' },
+    { icon:'🔤', text:'Material de vocabulario con imágenes y colores para preescolar y primaria' },
+    { icon:'🎯', text:'150 dinámicas orales sin papel para hacer las clases más activas' },
+  ],
+  teens: [
+    { icon:'⚡', text:'Actividades dinámicas para teenagers que se aburren fácilmente' },
+    { icon:'🎮', text:'Material gamificado que engancha incluso a los alumnos más difíciles' },
+    { icon:'🎯', text:'150 dinámicas sin papel para clases más participativas' },
+  ],
+  adults: [
+    { icon:'💼', text:'Material de conversación y vocabulario profesional para adultos' },
+    { icon:'📈', text:'Actividades estructuradas para niveles A1–C1' },
+    { icon:'🎯', text:'Dinámicas de debate y negociación listas para usar' },
+  ],
+  mixed: [
+    { icon:'🌀', text:'Material para todos los niveles y edades en un solo lugar' },
+    { icon:'📚', text:'Desde preescolar hasta adultos — sin buscar en varios sitios' },
+    { icon:'🎯', text:'150 dinámicas sin papel que funcionan para cualquier grupo' },
+  ],
+};
+
+function showOffer(){
+  document.getElementById('profile-text').textContent = profileTexts[perfil] || profileTexts.kids;
+  const grid = document.getElementById('resolves-grid');
+  grid.innerHTML = '';
+  (resolvesByPerfil[perfil] || resolvesByPerfil.kids).forEach(r => {
+    const d = document.createElement('div');
+    d.className = 'resolve-item';
+    d.innerHTML = `<span class="ri-icon">${r.icon}</span><span>${r.text}</span>`;
+    grid.appendChild(d);
+  });
+  if(typeof fbq==='function') fbq('track','ViewContent',{content_name:'Oferta — El Universo Teacher',currency:'USD',value:9.90});
+  startCountdown();
+  buildFAQ();
+}
+
+function startCountdown(){
+  let secs = 14*60+59;
+  const els = [document.getElementById('offer-countdown'), document.getElementById('topbar-timer')];
+  (function tick(){
+    const m = Math.floor(secs/60), s = secs%60;
+    const txt = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    els.forEach(e=>{ if(e) e.textContent=txt; });
+    if(secs-- > 0) setTimeout(tick,1000);
+  })();
+}
+
+const faqs = [
+  { q:'¿Cómo recibo el material después de comprar?', a:'Al completar tu pago recibes un correo con acceso inmediato. Desde ahí descargas todo en PDF — en menos de 2 minutos ya tienes el material en tu dispositivo.' },
+  { q:'¿Funciona para cualquier país de Latinoamérica?', a:'Sí. Aceptamos tarjetas de toda Latinoamérica y te cobramos en tu moneda local. No necesitas tarjeta internacional ni cuenta en dólares.' },
+  { q:'¿El material es en inglés o en español?', a:'Las actividades están en inglés para que tus alumnos las usen directamente. Las instrucciones para el teacher están en español.' },
+  { q:'¿Puedo imprimirlo en casa?', a:'Sí, todo viene en PDF optimizado para impresión en tamaño carta y A4. También puedes usarlo en pantalla si lo prefieres.' },
+  { q:'¿Cuánto tiempo tengo acceso?', a:'Acceso de por vida. Una sola compra, sin suscripción, sin límites de descarga.' },
+];
+
+function buildFAQ(){
+  const list = document.getElementById('faq-list');
+  list.innerHTML = '';
+  faqs.forEach((f,i)=>{
+    const item = document.createElement('div');
+    item.className = 'faq-item';
+    item.innerHTML = `
+      <div class="faq-q" onclick="toggleFAQ(${i})">
+        <span>${f.q}</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">${f.a}</div>`;
+    list.appendChild(item);
+  });
+}
+
+function toggleFAQ(i){
+  document.querySelectorAll('.faq-item').forEach((el,j)=>{
+    if(j===i) el.classList.toggle('open');
+    else el.classList.remove('open');
+  });
+}
+
+function trackCheckout(){
+  if(typeof fbq==='function') fbq('track','InitiateCheckout',{currency:'USD',value:9.90});
+}
+function fbqTrack(evt){ if(typeof fbq==='function') fbq('trackCustom',evt); }
+
+let vimeoPlayer = null;
+function initVimeoPlayer(){
+  if(vimeoPlayer) return;
+  const s = document.createElement('script');
+  s.src = 'https://player.vimeo.com/api/player.js';
+  s.onload = ()=>{ vimeoPlayer = new Vimeo.Player(document.getElementById('vimeo-dep')); };
+  document.head.appendChild(s);
+}
+function stopVideo(){ if(vimeoPlayer) vimeoPlayer.pause().catch(()=>{}); }
+
+const notifData = [
+  { flag:'🇲🇽', name:'Valentina R.', country:'México',    time:'hace 3 minutos' },
+  { flag:'🇨🇴', name:'Camila T.',    country:'Colombia',  time:'hace 1 minuto' },
+  { flag:'🇦🇷', name:'Luciana M.',   country:'Argentina', time:'hace 5 minutos' },
+  { flag:'🇨🇱', name:'Fernanda S.', country:'Chile',     time:'hace 2 minutos' },
+  { flag:'🇵🇪', name:'Gabriela M.', country:'Perú',      time:'hace 7 minutos' },
+  { flag:'🇪🇨', name:'Daniela R.',  country:'Ecuador',   time:'hace 4 minutos' },
+  { flag:'🇻🇪', name:'Carolina P.', country:'Venezuela', time:'hace 6 minutos' },
+  { flag:'🇧🇴', name:'Mariana L.',  country:'Bolivia',   time:'hace 9 minutos' },
+  { flag:'🇺🇾', name:'Sofía G.',    country:'Uruguay',   time:'hace 8 minutos' },
+  { flag:'🇵🇦', name:'Andrea V.',   country:'Panamá',    time:'hace 11 minutos' },
+];
+
+let notifIndex=0, notifTimeout;
+function showNotif(){
+  const d = notifData[notifIndex % notifData.length];
+  document.getElementById('notif-flag').textContent = d.flag;
+  document.getElementById('notif-name').textContent = d.name+' · '+d.country+' acaba de comprar';
+  document.getElementById('notif-time').textContent = d.time;
+  const el = document.getElementById('notif');
+  el.classList.add('show');
+  clearTimeout(notifTimeout);
+  notifTimeout = setTimeout(()=>{
+    el.classList.remove('show');
+    notifIndex++;
+    setTimeout(showNotif, Math.random()*12000+8000);
+  }, 4500);
+}
+function closeNotif(){
+  document.getElementById('notif').classList.remove('show');
+  notifIndex++;
+  clearTimeout(notifTimeout);
+  setTimeout(showNotif, Math.random()*12000+8000);
+}
+
+setTimeout(showNotif, 6000);
+renderDots('s0');
+</script>
+</body>
+</html>

@@ -864,6 +864,18 @@ body {
     <div class="section-tag">Lo que resuelve para ti</div>
     <div class="resolves-grid" id="resolves-grid"></div>
 
+    <!-- HEADLINE EMOCIONAL -->
+    <div style="text-align:center;padding:28px 0 20px;">
+      <p style="font-family:var(--serif);font-size:clamp(1.35rem,4.5vw,1.75rem);font-weight:400;color:var(--dark);line-height:1.3;margin-bottom:10px;">¿Cuántas horas más vas a perder el domingo buscando lo que ya existe organizado?</p>
+      <p style="font-size:0.95rem;font-weight:500;color:var(--slate);line-height:1.6;">Miles de teachers ya resolvieron esto de una vez. Ahora es tu turno.</p>
+    </div>
+
+    <!-- BOTÃO ÂNCORA -->
+    <a href="#comprar" class="btn-cta" style="margin-bottom:28px;">
+      ¡QUIERO EL UNIVERSO TEACHER AHORA! 🌟
+      <span style="display:block;font-size:0.72rem;font-weight:600;opacity:0.8;margin-top:3px;">Solo toma 10 segundos · Acceso inmediato</span>
+    </a>
+
     <div class="product-hero">
       <div class="product-name">El Universo Teacher</div>
       <div class="product-sub">+300 actividades de inglés listas para usar 🖨️</div>
@@ -971,7 +983,7 @@ body {
       <span style="font-size:0.85rem;font-weight:800;color:var(--green);margin-left:10px;">Hoy solo $9.90 →</span>
     </div>
 
-    <a href="https://pay.hotmart.com/V106030066L?checkoutMode=10" class="btn-cta" onclick="trackCheckout()">
+    <a id="comprar" href="https://pay.hotmart.com/V106030066L?checkoutMode=10" class="btn-cta" onclick="trackCheckout()">
       ¡SÍ! QUIERO EL UNIVERSO TEACHER 🌟
     </a>
     <p class="micro-copy">Solo toma 10 segundos · Acceso inmediato</p>
@@ -1099,6 +1111,7 @@ function showOffer(){
   });
   startCountdown();
   buildFAQ();
+  setTimeout(showNotif, 4000);
 }
 
 function startCountdown(){
